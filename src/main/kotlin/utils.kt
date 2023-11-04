@@ -1,18 +1,9 @@
-import androidx.compose.desktop.Window
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.platform.Font
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Window
 import kotlin.math.pow
 import kotlin.math.sqrt
 import kotlin.random.Random
@@ -43,26 +34,6 @@ fun randomFloat(value: Float = 0f, randomSign: Boolean = false): Float = when (v
 }
 
 fun distance(x1: Float, x2: Float, y1: Float, y2: Float): Float = sqrt((y2 - y1).pow(2) + (x2 - x1).pow(2))
-
-fun Preview(
-    modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
-) {
-    Window(
-        title = "Compose-Ants-Debug",
-        size = IntSize(Window.WIDTH, Window.HEIGHT),
-        resizable = false,
-        centered = true,
-    ) {
-        MaterialTheme() {
-            Box(
-                modifier = modifier.fillMaxSize()
-            ) {
-                content()
-            }
-        }
-    }
-}
 
 
 fun main() {

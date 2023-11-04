@@ -1,24 +1,43 @@
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerMoveFilter
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.application
 
-fun main() {
-    Preview {
-        val scene = remember { Scene() }
-        scene.setupScene()
-        val frameState = StepFrame {
-            scene.update()
+fun main()  =  application {
+    Window(
+        onCloseRequest = ::exitApplication,
+//        state = WindowState(width = 800.dp, height = 600.dp),
+        title = "Compose-Ants-Debug",
+
+//        create = {}
+//        size = IntSize(Window.WIDTH, Window.HEIGHT),
+//        resizable = false,
+//        centered = true,
+    ) {
+        MaterialTheme() {
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                val scene = remember { Scene() }
+                scene.setupScene()
+                val frameState = StepFrame {
+                    scene.update()
+                }
+                scene.render(frameState)
+            }
         }
-        scene.render(frameState)
     }
 }
 
@@ -43,6 +62,7 @@ class Scene {
         }
     }
 
+    @OptIn(ExperimentalComposeUiApi::class)
     @Composable
     fun render(frameState: State<Long>) {
         var forces by remember {

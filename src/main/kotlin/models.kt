@@ -2,8 +2,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.*
-import org.jetbrains.skija.ImageInfo
-import java.lang.Math.abs
 
 sealed class SceneEntity {
     abstract fun update(scene: Scene)
