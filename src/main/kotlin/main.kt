@@ -1,9 +1,7 @@
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -18,13 +16,9 @@ import androidx.compose.ui.window.application
 fun main()  =  application {
     Window(
         onCloseRequest = ::exitApplication,
-//        state = WindowState(width = 800.dp, height = 600.dp),
+        state = WindowState(width = 680.dp, height = 600.dp),
         title = "Compose-Ants-Debug",
-
-//        create = {}
-//        size = IntSize(Window.WIDTH, Window.HEIGHT),
-//        resizable = false,
-//        centered = true,
+        resizable = false,
     ) {
         MaterialTheme() {
             Box(
@@ -32,7 +26,7 @@ fun main()  =  application {
             ) {
                 val scene = remember { Scene() }
                 scene.setupScene()
-                val frameState = StepFrame {
+                val frameState = stepFrame {
                     scene.update()
                 }
                 scene.render(frameState)
@@ -49,9 +43,9 @@ class Scene {
 
     fun setupScene() {
         sceneEntity.clear()
-        repeat(200) {
-            boids.add(Boid(it))
-        }
+
+        repeat(200) { boids.add(Boid(it)) }
+
         sceneEntity.addAll(boids)
     }
 
@@ -75,7 +69,7 @@ class Scene {
                 )
             )
         }
-        var player by remember { mutableStateOf(vector(0f, 0f)) }
+        val player by remember { mutableStateOf(vector(0f, 0f)) }
 
         Column(
             modifier = Modifier.fillMaxWidth().fillMaxHeight()
@@ -108,12 +102,18 @@ class Scene {
                 Column(
                     modifier = Modifier.width(200.dp)
                         .padding(16.dp)
-                        .offset(((Window.WIDTH + 200) / 2).dp)
+                        .offset(((720 + 200) / 2).dp)
                 ) {
 
 
                     Text(text = "Ant Flocking System", color = Color.White, fontSize = 26.sp)
                     Spacer(Modifier.height(18.dp))
+
+//                    Button(onClick = { /* Do something! */ }, colors = ButtonDefaults.textButtonColors(
+//                        backgroundColor = Color.Red
+//                    )) {
+//                        Text("Button")
+//                    }
 
                     Text(text = "Alignment \n [${forces.weightAlignment}]", color = Color.White)
                     Slider(
@@ -121,6 +121,32 @@ class Scene {
                         valueRange = 0f..10f,
                         onValueChange = { forces = forces.copy(weightAlignment = it) },
                     )
+
+//                    Spacer(Modifier.height(18.dp))
+//                    var expanded by remember { mutableStateOf(false) }
+//                    val items = listOf("A", "B", "C", "D", "E", "F")
+//                    val disabledValue = "B"
+//                    var selectedIndex by remember { mutableStateOf(0) }
+//                    DropdownMenu(
+//                        expanded = expanded,
+//                        onDismissRequest = { expanded = false },
+////                        modifier = Modifier.fillMaxWidth().background(
+////                            Color.Red)
+//                    ) {
+//                        items.forEachIndexed { index, s ->
+//                            DropdownMenuItem(onClick = {
+//                                selectedIndex = index
+//                                expanded = false
+//                            }) {
+//                                val disabledText = if (s == disabledValue) {
+//                                    " (Disabled)"
+//                                } else {
+//                                    ""
+//                                }
+//                                Text(text = s + disabledText)
+//                            }
+//                        }
+//                    }
 
                     Spacer(Modifier.height(18.dp))
                     Text(text = "Cohesion \n [${forces.weightCohesion}]", color = Color.White)
@@ -169,7 +195,7 @@ fun Boolean.onTrue(action: () -> Unit) {
 }
 
 @Composable
-fun StepFrame(callback: () -> Unit): State<Long> {
+fun stepFrame(callback: () -> Unit): State<Long> {
     val millis = remember { mutableStateOf(0L) }
     LaunchedEffect(Unit) {
         val startTime = withFrameMillis { it }
